@@ -69,7 +69,7 @@ const MainCarousel = () => {
           />
           <Box
             color="white"
-            padding="20px"
+            padding="0px"
             borderRadius="1px"
             textAlign="left"
             backgroundColor="rgb(0, 0, 0, 0.4)"
@@ -80,15 +80,6 @@ const MainCarousel = () => {
             margin={isNonMobile ? undefined : "0 auto"}
             maxWidth={isNonMobile ? undefined : "240px"}
           >
-            <Typography color={shades.secondary[200]}>-- NEW ITEMS</Typography>
-            <Typography variant="h1">Summer Sale</Typography>
-            <Typography
-              fontWeight="bold"
-              color={shades.secondary[300]}
-              sx={{ textDecoration: "underline" }}
-            >
-              Discover More
-            </Typography>
           </Box>
         </Box>
       ))}
