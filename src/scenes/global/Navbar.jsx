@@ -40,7 +40,7 @@ function Navbar() {
           sx={{ "&:hover": { cursor: "pointer" } }}
           color={shades.secondary[500]}
         >
-          <h2>Parfüméria</h2>
+          <h2>Oud Aroma</h2>
         </Box>
         <Box
           display="flex"
