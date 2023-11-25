@@ -7,20 +7,31 @@ import { Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../../state";
+import {useLocation} from "react-router-dom"
+
 
 const ShoppingList = () => {
   const dispatch = useDispatch();
-  const [value, setValue] = useState("all");
+  const [value, setValue] = useState("All");
   const items = useSelector((state) => state.cart.items);
   const breakPoint = useMediaQuery("(min-width:600px)");
+  const location = useLocation();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+      setValue(newValue);
+
   };
 
   console.log(items)
 
 
+  useEffect(()=>{
+    if(location.search.length > 0){
+      const category = location.search.split("=")[1]
+      setValue(category.split('%20').length == 2 ? category.replace('%20','') : category)
+    }
+  })
+  
   
 
   async function getItems() {
@@ -40,13 +51,13 @@ const ShoppingList = () => {
 
 
   const topRatedItems = items.filter(
-    (item) => item.category === "topRated"
+    (item) => item.category === "TopRated"
   );
   const newArrivalsItems = items.filter(
-    (item) => item.category === "newArrivals"
+    (item) => item.category === "NewArrivals"
   );
   const bestSellersItems = items.filter(
-    (item) => item.category === "bestSellers"
+    (item) => item.category === "BestSellers"
   );
   const UnisexItems = items.filter(
     (item) => item.category === "Unisex"
@@ -58,10 +69,15 @@ const ShoppingList = () => {
     (item) => item.category === "Female"
   );
 
+  console.log(value)
+  console.log(value.split('%20').length == 2 ? value.replace('%20','') : value)
+
+    
+
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
-        Our Featured <b>Products</b>
+        Our Featured {value.replace("%20"," ")} <b>Products</b>
       </Typography>
       <Tabs
         textColor="primary"
@@ -77,13 +93,7 @@ const ShoppingList = () => {
           },
         }}
       >
-        <Tab label="ALL" value="all" />
-        <Tab label="NEW ARRIVALS" value="newArrivals" />
-        <Tab label="BEST SELLERS" value="bestSellers" />
-        <Tab label="TOP RATED" value="topRated" />
-        <Tab label="Unisex" value="Unisex" />
-        <Tab label="Male" value="Male" />
-        <Tab label="Female" value="Female" />
+
       </Tabs>
       <Box
         margin="0 auto"
@@ -93,19 +103,20 @@ const ShoppingList = () => {
         rowGap="20px"
         columnGap="1.33%"
       >
-        {value === "all" &&
+        {value === "All" &&
           items.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
-        {value === "newArrivals" &&
+        {value === "NewArrivals" &&
           newArrivalsItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}
-        {value === "bestSellers" &&
+        {value === "BestSellers" &&
           bestSellersItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
+            
           ))}
-        {value === "topRated" &&
+        {value === "TopRated" &&
           topRatedItems.map((item) => (
             <Item item={item} key={`${item.name}-${item.id}`} />
           ))}

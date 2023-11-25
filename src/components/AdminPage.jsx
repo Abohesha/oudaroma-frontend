@@ -3,6 +3,7 @@ import {storage} from '../firebase'
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 import {v4} from 'uuid'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminPage = () => {
     const navigate = useNavigate()
@@ -14,11 +15,12 @@ const AdminPage = () => {
     const [category, setCategory] = useState("Male");
     const [shortDescription, setShortDescription] = useState("");
     const [longDescription, setLongDescription] = useState("")
-    
     const [imagesURLs, setImagesURLs] = useState([])
-
-
     const [allPerfumeData, setAllPerfumeData] = useState([])
+
+    const items = useSelector((state) => state.cart.items);
+
+    console.log(items)
 
     const getAllPerfume = async () =>{
         const res = await fetch('https://oudaroma-backend.onrender.com/item/get-all-items',{
@@ -162,8 +164,10 @@ const AdminPage = () => {
                 Submit
             </button>
         </div>
-
         </form>
+
+
+
     </div>
   )
 }

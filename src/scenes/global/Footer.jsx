@@ -56,7 +56,6 @@ function Footer() {
           </Typography>
           <Typography mb="30px">
             Debrecen, Batthyány u. 22, 4024
-            https://maps.app.goo.gl/BU8WjfSriwE4VS2NA
           </Typography>
           <Typography mb="30px" sx={{ wordWrap: "break-word" }}>
             Email: oudaroma@oudaroma.net

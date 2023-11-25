@@ -18,6 +18,7 @@ export const heroTextureImports = importAll(
 
 const MainCarousel = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+
   return (
     <Carousel
       infiniteLoop={true}
@@ -56,13 +57,21 @@ const MainCarousel = () => {
       )}
     >
       {Object.values(heroTextureImports).map((texture, index) => (
-        <Box key={`carousel-image-${index}`}>
+        <Box
+          key={`carousel-image-${index}`}
+          sx={{
+            position: "relative",
+            width: "100%",
+            height: isNonMobile ? "700px" : "300px", // Adjust the height for mobile
+            marginBottom: isNonMobile ? "0" : "20px", // Add some space between images on mobile
+          }}
+        >
           <img
             src={texture}
             alt={`carousel-${index}`}
             style={{
               width: "100%",
-              height: "700px",
+              height: "100%",
               objectFit: "cover",
               backgroundAttachment: "fixed",
             }}
@@ -80,6 +89,7 @@ const MainCarousel = () => {
             margin={isNonMobile ? undefined : "0 auto"}
             maxWidth={isNonMobile ? undefined : "240px"}
           >
+            {/* Content inside the Box */}
           </Box>
         </Box>
       ))}
