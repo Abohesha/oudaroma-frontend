@@ -69,11 +69,6 @@ const ShoppingList = () => {
     (item) => item.category === "Female"
   );
 
-  console.log(value)
-  console.log(value.split('%20').length == 2 ? value.replace('%20','') : value)
-
-    
-
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
