@@ -7,6 +7,7 @@ import { shades } from "../../theme";
 import Payment from "./Payment";
 import Shipping from "./Shipping";
 import {loadStripe} from "@stripe/stripe-js";
+import React from "react";
 
 const stripePromise = loadStripe(
   "pk_test_51ODvLYB5OihzYFC9XgoFH8vCBTvyM4txL1a3ADuEWwZgd18UJNHOwzxeYkVJrdH9nexiB3BORyw4ff6cbxKDEAYf00zpVs7RiQ"
