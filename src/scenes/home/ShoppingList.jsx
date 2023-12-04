@@ -25,13 +25,15 @@ const ShoppingList = () => {
   console.log(items)
 
 
+
   useEffect(()=>{
     if(location.search.length > 0){
       const category = location.search.split("=")[1]
       setValue(category.split('%20').length == 2 ? category.replace('%20','') : category)
+    }else{
+      setValue("All")
     }
   })
-  
   
 
   async function getItems() {
@@ -44,30 +46,38 @@ const ShoppingList = () => {
  
   }
 
-  useEffect(() => {
+  useEffect(()=>{
     getItems()
-  }, []); 
+  },[])
+
+
+
+
+  console.log(items)
+
 
 
 
   const topRatedItems = items.filter(
-    (item) => item.category === "TopRated"
+    (item) => Array.isArray(item.category) && item.category.includes("TopRated")
   );
   const newArrivalsItems = items.filter(
-    (item) => item.category === "NewArrivals"
+    (item) => Array.isArray(item.category) && item.category.includes("NewArrivals")
   );
   const bestSellersItems = items.filter(
-    (item) => item.category === "BestSellers"
+    (item) => Array.isArray(item.category) && item.category.includes("BestSellers")
   );
   const UnisexItems = items.filter(
-    (item) => item.category === "Unisex"
+    (item) => Array.isArray(item.category) && item.category.includes("Unisex")
   );
   const MaleItems = items.filter(
-    (item) => item.category === "Male"
+    (item) => Array.isArray(item.category) && item.category.includes("Male")
   );
   const FemaleItems = items.filter(
-    (item) => item.category === "Female"
+    (item) =>Array.isArray(item.category) &&  item.category.includes("Female")
   );
+
+  console.log(bestSellersItems)
 
   return (
     <Box width="80%" margin="80px auto">

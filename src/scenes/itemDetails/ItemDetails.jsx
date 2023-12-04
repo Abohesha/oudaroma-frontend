@@ -150,7 +150,7 @@ const ItemDetails = () => {
               <FavoriteBorderOutlinedIcon />
               <Typography sx={{ ml: "5px" }}>ADD TO WISHLIST</Typography>
             </Box>
-            <Typography>CATEGORIES: {item?.category}</Typography>
+            <Typography>CATEGORIES: {item?.category.map(c=>{return c +' '})}</Typography>
           </Box>
         </Box>
       </Box>
