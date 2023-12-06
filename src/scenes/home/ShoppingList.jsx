@@ -7,7 +7,8 @@ import { Typography } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useDispatch, useSelector } from "react-redux";
 import { setItems } from "../../state";
-import {useLocation} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
+import Navbar from "../global/Navbar";
 
 
 const ShoppingList = () => {
@@ -16,10 +17,11 @@ const ShoppingList = () => {
   const items = useSelector((state) => state.cart.items);
   const breakPoint = useMediaQuery("(min-width:600px)");
   const location = useLocation();
+  const navigate = useNavigate()
 
-  const handleChange = (event, newValue) => {
-      setValue(newValue);
-
+  const handleChange = (event, value) => {
+      navigate(`/?category=${value}`)
+      console.log(value)
   };
 
   console.log(items)
@@ -52,12 +54,6 @@ const ShoppingList = () => {
 
 
 
-
-  console.log(items)
-
-
-
-
   const topRatedItems = items.filter(
     (item) => Array.isArray(item.category) && item.category.includes("TopRated")
   );
@@ -77,13 +73,14 @@ const ShoppingList = () => {
     (item) =>Array.isArray(item.category) &&  item.category.includes("Female")
   );
 
-  console.log(bestSellersItems)
+
 
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
         Our Featured {value.replace("%20"," ")} <b>Products</b>
       </Typography>
+      
       <Tabs
         textColor="primary"
         indicatorColor="primary"
@@ -98,7 +95,14 @@ const ShoppingList = () => {
           },
         }}
       >
-
+        
+        <Tab label="ALL" value="All" />
+        <Tab label="MALE" value="Male"/>
+        <Tab label="FEMALE" value="Female"/>
+        <Tab label="UNISEX" value="Unisex"/>
+        <Tab label="NEW ARRIVALS" value="NewArrivals" />
+        <Tab label="BEST SELLERS" value="BestSellers" />
+        <Tab label="TOP RATED" value="TopRated" />
       </Tabs>
       <Box
         margin="0 auto"

@@ -60,8 +60,8 @@ const ItemDetails = () => {
     getItems();
   }, [itemId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /*
-
+  
+/*
   <Box flex="1 1 40%" mb="40px">
           <img
             alt={item?.name}
@@ -72,7 +72,7 @@ const ItemDetails = () => {
           />
         </Box>
 
-        */
+   */     
 
   return (
     <Box width="80%" m="80px auto">
