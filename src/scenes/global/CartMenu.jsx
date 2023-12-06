@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
-import { useSelector, useDispatch, shallowEqual  } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -30,8 +30,6 @@ const CartMenu = () => {
     return total + item.count * item.price;
   }, 0);
 
-  console.log(cart[0]?._id)
-
   return (
     <Box
       display={isCartOpen ? "block" : "none"}
@@ -56,17 +54,16 @@ const CartMenu = () => {
           {/* HEADER */}
           <FlexBox mb="15px">
             <Typography variant="h3">SHOPPING BAG ({cart.length})</Typography>
-            <IconButton onClick={() => dispatch(setIsCartOpen({}))}>
+            <IconButton onClick={() => dispatch(setIsCartOpen())}>
               <CloseIcon />
             </IconButton>
           </FlexBox>
 
           {/* CART LIST */}
-          
           <Box>
             {cart.map((item) => (
               <Box key={item._id}>
-                <FlexBox p="15px 0" >
+                <FlexBox p="15px 0">
                   <Box flex="1 1 40%">
                     <img
                       alt={item?.name}
@@ -77,12 +74,10 @@ const CartMenu = () => {
                   </Box>
                   <Box flex="1 1 60%">
                     <FlexBox mb="5px">
-                      <Typography fontWeight="bold">
-                        {item.name}
-                      </Typography>
+                      <Typography fontWeight="bold">{item.name}</Typography>
                       <IconButton
                         onClick={() =>
-                          dispatch(removeFromCart({ id: item._id }))
+                          dispatch(removeFromCart({ _id: item._id }))
                         }
                       >
                         <CloseIcon />
@@ -97,7 +92,7 @@ const CartMenu = () => {
                       >
                         <IconButton
                           onClick={() =>
-                            dispatch(decreaseCount({ id: item._id }))
+                            dispatch(decreaseCount({ _id: item._id }))
                           }
                         >
                           <RemoveIcon />
@@ -105,15 +100,13 @@ const CartMenu = () => {
                         <Typography>{item.count}</Typography>
                         <IconButton
                           onClick={() =>
-                            dispatch(increaseCount({ id: item._id }))
+                            dispatch(increaseCount({ _id: item._id }))
                           }
                         >
                           <AddIcon />
                         </IconButton>
                       </Box>
-                      <Typography fontWeight="bold">
-                        ${item.price}
-                      </Typography>
+                      <Typography fontWeight="bold">HUF{item.price}</Typography>
                     </FlexBox>
                   </Box>
                 </FlexBox>
@@ -126,7 +119,7 @@ const CartMenu = () => {
           <Box m="20px 0">
             <FlexBox m="20px 0">
               <Typography fontWeight="bold">SUBTOTAL</Typography>
-              <Typography fontWeight="bold">HUF {totalPrice}</Typography>
+              <Typography fontWeight="bold">HUF{totalPrice}</Typography>
             </FlexBox>
             <Button
               sx={{
@@ -139,7 +132,7 @@ const CartMenu = () => {
               }}
               onClick={() => {
                 navigate("/checkout");
-                dispatch(setIsCartOpen({}));
+                dispatch(setIsCartOpen());
               }}
             >
               CHECKOUT
