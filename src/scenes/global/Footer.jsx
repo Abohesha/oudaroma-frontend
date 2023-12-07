@@ -43,14 +43,7 @@ function Footer() {
           <Typography mb="30px">Privacy Policy</Typography>
         </Box>
 
-        <Box>
-          <Typography variant="h4" fontWeight="bold" mb="30px">
-            Customer Care
-          </Typography>
-          <Typography mb="30px">Help Center</Typography>
-          <Typography mb="30px">Track Your Order</Typography>
-          
-        </Box>
+
 
         <Box width="clamp(20%, 25%, 30%)">
           <Typography variant="h4" fontWeight="bold" mb="30px">
@@ -63,6 +56,10 @@ function Footer() {
             Email: oudaroma@oudaroma.net
           </Typography>
           <Typography mb="30px">06 70 434 1278</Typography>
+          <Typography mb="30px">+36 30 978 3757</Typography>
+
+          <Typography mb="30px"> </Typography>
+
         </Box>
       </Box>
     </Box>

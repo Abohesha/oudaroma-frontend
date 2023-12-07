@@ -32,3 +32,61 @@ body {
     margin-right: 0; 
   } */
 }
+
+.formWord {
+  margin-bottom: 20px;
+}
+
+.input100,
+textarea {
+  width: 100%; /* Adjust the width as needed */
+  max-width: 400px; /* Limit the maximum width if desired */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+
+p {
+  color: black;
+  font-weight: bold;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-container,
+.maps {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .form-container,
+  .maps {
+    max-width: calc(100% - 20px);
+    margin-bottom: 15px;
+  }
+}

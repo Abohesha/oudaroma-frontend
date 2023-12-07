@@ -20,8 +20,12 @@ const ShoppingList = () => {
   const navigate = useNavigate()
 
   const handleChange = (event, value) => {
-      navigate(`/?category=${value}`)
-      console.log(value)
+    if (value === "ContactUs") {
+      navigate('/Contact');
+    } else {
+      navigate(`/?category=${value}`);
+    }
+    console.log(value);
   };
 
   console.log(items)
@@ -102,7 +106,7 @@ const ShoppingList = () => {
         <Tab label="UNISEX" value="Unisex"/>
         <Tab label="NEW ARRIVALS" value="NewArrivals" />
         <Tab label="BEST SELLERS" value="BestSellers" />
-        <Tab label="TOP RATED" value="TopRated" />
+        <Tab label="Contact Us" value="ContactUs" />
       </Tabs>
       <Box
         margin="0 auto"

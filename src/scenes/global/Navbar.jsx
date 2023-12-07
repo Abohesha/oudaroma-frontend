@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge, Box, IconButton, Menu, MenuItem } from '@mui/material';
-import {  PersonOutline, ShoppingBagOutlined, MenuOutlined, SearchOutlined,} from '@mui/icons-material';
+import { PersonOutline, ShoppingBagOutlined, SearchOutlined, MenuOutlined } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { shades } from '../../theme';
 import { setIsCartOpen } from '../../state';
+import { shades } from '../../theme';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Select, FormControl, InputLabel } from '@mui/material';
 
 const PerfumeMenuButton = (props) => {
-  
   const handleClick = (event) => {
     props.setAnchorEl(event.currentTarget);
-    
   };
 
   const handleClose = () => {
@@ -27,17 +25,21 @@ const PerfumeMenuButton = (props) => {
     'Unisex',
     'Top Rated',
     'Best Sellers',
+    'Contact Us'
   ];
 
   const navigate = useNavigate();
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
-    navigate(`/?category=${option}`)
+    if (option === 'Contact Us') {
+      navigate('/Contact'); // Navigates to the Contact Us path when clicked
+    } else {
+      navigate(`/?category=${option}`);
+    }
     handleClose();
   };
-  console.log(selectedOption)
-  
+
   return (
     <React.Fragment>
       <IconButton
@@ -53,13 +55,11 @@ const PerfumeMenuButton = (props) => {
         anchorEl={props.anchorEl}
         open={Boolean(props.anchorEl)}
         onClose={handleClose}
-        onSelect={(e)=>console.log(e)}
-        
+        onSelect={(e) => console.log(e)}
       >
         {menuOptions.map((option, index) => (
           <MenuItem key={index} onClick={() => handleOptionSelect(option)}>
             {option}
-
           </MenuItem>
         ))}
       </Menu>
@@ -67,15 +67,11 @@ const PerfumeMenuButton = (props) => {
   );
 };
 
-
-const Navbar = ()=> {
-
+const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  console.log(anchorEl)
 
   return (
     <Box
@@ -105,12 +101,6 @@ const Navbar = ()=> {
           <h2>Oud Aroma</h2>
         </Box>
         <Box display="flex" justifyContent="space-between" columnGap="20px" zIndex="2">
-             {/*  <IconButton sx={{ color: 'black' }}>
-            <SearchOutlined />
-          </IconButton>*/}
-         {/* <IconButton sx={{ color: 'black' }}> 
-            <PersonOutline />
-          </IconButton>*/}
           <Badge
             badgeContent={cart.length}
             color="secondary"
@@ -129,11 +119,11 @@ const Navbar = ()=> {
               <ShoppingBagOutlined />
             </IconButton>
           </Badge>
-          <PerfumeMenuButton setAnchorEl={setAnchorEl} anchorEl={anchorEl}/>
+          <PerfumeMenuButton setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
         </Box>
       </Box>
     </Box>
   );
-}
+};
 
 export default Navbar;
