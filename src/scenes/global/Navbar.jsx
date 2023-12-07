@@ -25,7 +25,9 @@ const PerfumeMenuButton = (props) => {
     'Unisex',
     'Top Rated',
     'Best Sellers',
-    'Contact Us'
+    'Contact Us',
+    'About Us',
+    'Gift Cards'
   ];
 
   const navigate = useNavigate();
@@ -33,7 +35,11 @@ const PerfumeMenuButton = (props) => {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     if (option === 'Contact Us') {
-      navigate('/Contact'); // Navigates to the Contact Us path when clicked
+      navigate('/Contact');
+    } else if (option === 'About Us') {
+      navigate('/AboutUs'); 
+    } else if (option === 'Gift Cards') {
+      navigate('/GiftCards');
     } else {
       navigate(`/?category=${option}`);
     }

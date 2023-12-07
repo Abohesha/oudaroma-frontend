@@ -31,6 +31,17 @@ function ContactComponent(props) {
           <br />
           <br />
           <br />
+          <h2>Address</h2>
+          <div>battyany utca 11/D</div>
+          <h2>Email</h2>
+          <div>oudaroma@oudaroma.net</div>
+          <h2>Phone Numbers</h2>
+          <ul>
+            <li>+36309783757</li>
+            <li>+36309783757 (English and Arabic speakers)</li>
+          </ul>
+            
+          
           <h2>Send us a message</h2>
           <span>Full Name</span>
           <br />

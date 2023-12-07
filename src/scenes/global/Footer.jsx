@@ -5,7 +5,7 @@ import { shades } from "../../theme";
 
 
 function Footer() {
-  const {
+  /*const {
     palette: { neutral },
   } = useTheme();
   return (
@@ -63,7 +63,7 @@ function Footer() {
         </Box>
       </Box>
     </Box>
-  );
+  );*/
 }
 
 export default Footer;

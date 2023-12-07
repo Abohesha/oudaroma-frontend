@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./scenes/home/Home";
 import Navbar from "./scenes/global/Navbar";
+import AboutUs from './components/AboutUs';
+import GiftCards from "./components/GiftCards.jsx";
 import AdminPage from "./components/AdminPage";
 import Footer from "./scenes/global/Footer.jsx";
 import CartMenu from "./scenes/global/CartMenu";
@@ -35,6 +37,8 @@ function App() {
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
           <Route path="/Contact" element={<ContactComponent />} />
+          <Route path="/AboutUs" element={<AboutUs />} />
+          <Route path="/GiftCards" element={<GiftCards />} />
         </Routes>
         <CartMenu />
         <Footer />

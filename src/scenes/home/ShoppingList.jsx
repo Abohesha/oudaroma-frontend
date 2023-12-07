@@ -22,6 +22,10 @@ const ShoppingList = () => {
   const handleChange = (event, value) => {
     if (value === "ContactUs") {
       navigate('/Contact');
+    } else if (value === "AboutUs") {
+      navigate('/AboutUs'); 
+    } else if (value === "GiftCards") {
+      navigate('/GiftCards'); 
     } else {
       navigate(`/?category=${value}`);
     }
@@ -107,6 +111,9 @@ const ShoppingList = () => {
         <Tab label="NEW ARRIVALS" value="NewArrivals" />
         <Tab label="BEST SELLERS" value="BestSellers" />
         <Tab label="Contact Us" value="ContactUs" />
+        <Tab label="About Us" value="AboutUs" />
+        <Tab label="Gift Cards" value="GiftCards" />
+
       </Tabs>
       <Box
         margin="0 auto"
