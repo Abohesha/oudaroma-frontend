@@ -38,7 +38,7 @@ function ContactComponent(props) {
           <h2>Phone Numbers</h2>
           <ul>
             <li>+36309783757</li>
-            <li>+36309783757 (English and Arabic speakers)</li>
+            <li>+36704341278 (English and Arabic speakers)</li>
           </ul>
             
           
