@@ -48,7 +48,7 @@ const ShoppingList = () => {
 
   async function getItems() {
     const res = await fetch(
-      "https://oudaroma-backend.onrender.com/item/get-all-items",
+      "https://oudaroma-backend-server.onrender.com/item/get-all-items",
       { method: "GET" }
     );
     const itemsJson = await res.json();

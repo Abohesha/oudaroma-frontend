@@ -23,7 +23,7 @@ const AdminPage = () => {
     console.log(items)
 
     const getAllPerfume = async () =>{
-        const res = await fetch('https://oudaroma-backend.onrender.com/item/get-all-items',{
+        const res = await fetch('https://oudaroma-backend-server.onrender.com/item/get-all-items',{
             method:"GET"
         })
         
@@ -61,7 +61,7 @@ const AdminPage = () => {
         
         if(password.toString() === "123")
         {
-            fetch(`https://oudaroma-backend.onrender.com/item/add-item`,{
+            fetch(`https://oudaroma-backend-server.onrender.com/item/add-item`,{
                 method:"POST",
                 headers:{
                     "Accept":"application/json",

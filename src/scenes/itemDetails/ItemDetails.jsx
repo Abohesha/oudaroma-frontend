@@ -34,7 +34,7 @@ const ItemDetails = () => {
 
   async function getItem() {
     const res = await fetch(
-      `https://oudaroma-backend.onrender.com/item/get-item-by-id/${imageId}`,
+      `https://oudaroma-backend-server.onrender.com/item/get-item-by-id/${imageId}`,
       {
         method: "GET",
       }
@@ -46,7 +46,7 @@ const ItemDetails = () => {
 
   async function getItems() {
     const res = await fetch(
-      `https://oudaroma-backend.onrender.com/item/get-all-items`,
+      `https://oudaroma-backend-server.onrender.com/item/get-all-items`,
       {
         method: "GET",
       }
