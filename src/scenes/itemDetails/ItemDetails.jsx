@@ -111,7 +111,7 @@ const ItemDetails = () => {
             <Typography variant="h3">{item?.name}</Typography>
             <Typography>HUF {item?.price}</Typography>
             <Typography sx={{ mt: "20px" }}>
-              {item?.longDescription}
+             {/* {item?.shortDescription}*/}
             </Typography>
           </Box>
 
