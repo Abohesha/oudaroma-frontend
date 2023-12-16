@@ -10,7 +10,7 @@ import {loadStripe} from "@stripe/stripe-js";
 import React from "react";
 
 const stripePromise = loadStripe(
-  "pk_test_51ODvLYB5OihzYFC9XgoFH8vCBTvyM4txL1a3ADuEWwZgd18UJNHOwzxeYkVJrdH9nexiB3BORyw4ff6cbxKDEAYf00zpVs7RiQ"
+  "pk_test_51Nw2lqFSecXCj8eNmASvsdocPT5d2d7dV4Y2MhtDpl3Ks2u14bzCa684ndgbQ8Nn8lSjZMpHPVxSEBitXERn4ll800jz4tkvbn"
 );
 
 const Checkout = () => {
@@ -47,7 +47,7 @@ const Checkout = () => {
       })),
     };
 
-    const response = await fetch("http://localhost:1337/api/orders", {
+    const response = await fetch("http://localhost:3000/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),

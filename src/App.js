@@ -13,6 +13,7 @@ import Checkout from "./scenes/checkout/Checkout";
 import Confirmation from "./scenes/checkout/Confirmation";
 import ItemDetails from "./scenes/itemDetails/ItemDetails";
 import ContactComponent from "./components/ContactComponent.jsx"; 
+import EditPerfume from "./components/EditPerfume.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/admin-rasha-123456789" element={<AdminPage/>} />
           <Route path="item/:itemId" element={<ItemDetails />} />
+          <Route path="/edit-perfume/:perfume_id" element={<EditPerfume />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
           <Route path="/Contact" element={<ContactComponent />} />
