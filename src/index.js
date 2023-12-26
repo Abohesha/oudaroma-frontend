@@ -8,7 +8,7 @@ import cartReducer from "./state";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { theme } from "./theme";
-
+import { AppProvider } from "./components/ContextProvider";
 
 const store = configureStore({
   reducer: {
@@ -20,11 +20,13 @@ const store = configureStore({
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </Provider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <AppProvider>
+          <App />
+          </AppProvider>
+        </ThemeProvider>
+      </Provider>
   </React.StrictMode>
 );
