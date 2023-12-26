@@ -1,46 +1,63 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState} from 'react'
 import {storage} from '../firebase'
 import {ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 import {v4} from 'uuid'
 import { useNavigate, useLocation} from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, TextField, Button } from '@mui/material';
-import {useAppContext} from './ContextProvider';
-import aboutUtil from './utils';
 
 
 const AdminPage = () => {
-      const navigate = useNavigate()
+    const navigate = useNavigate()
 
-      const [name, setName] = useState("");
-      const [images, setImages] = useState([]);
-      const [price, setPrice] = useState("");
-      const [password, setPassword] = useState("")
-      const [category, setCategory] = useState("Male");
-      const [shortDescription, setShortDescription] = useState("");
-      const [longDescription, setLongDescription] = useState("")
-      const [imagesURLs, setImagesURLs] = useState([])
-      const [allPerfumeData, setAllPerfumeData] = useState([])
-      const [searchTerm, setSearchTerm] = useState('');
-      const [aboutText, setAboutText] = useState(
-          `Perfume has a transformative quality that awakens something in all of us, from admiring the
-          precious liquid inside the beautiful bottles, to an aroma that can teleport you to a time or
-          place in an instant. "Perfume is the key to our memories" according to Kate Lord Brown,
-          author of the book "The Perfume Garden"`
-        );
-      
-      const {about, updateAbout, announcement, updateAnnouncement, giftCards, updateGiftCards} = useAppContext()
-      
+    const [name, setName] = useState("");
+    const [images, setImages] = useState([]);
+    const [price, setPrice] = useState("");
+    const [password, setPassword] = useState("")
+    const [category, setCategory] = useState("Male");
+    const [shortDescription, setShortDescription] = useState("");
+    const [longDescription, setLongDescription] = useState("")
+    const [imagesURLs, setImagesURLs] = useState([])
+    const [allPerfumeData, setAllPerfumeData] = useState([])
+    const [searchTerm, setSearchTerm] = useState('');
+    const [aboutText, setAboutText] = useState(
+        `Perfume has a transformative quality that awakens something in all of us, from admiring the
+        precious liquid inside the beautiful bottles, to an aroma that can teleport you to a time or
+        place in an instant. "Perfume is the key to our memories" according to Kate Lord Brown,
+        author of the book "The Perfume Garden".`
+      );
+
 
       const [editable, setEditable] = useState(false);
-
       const handleTextChange = (e) => {
-        setAboutText((prev)=>e.target.value);
+        setAboutText(e.target.value);
       };
       
-      const handleUpdateAbout = (e) => {
-        localStorage.setItem('about',aboutText)
-        setEditable(false)
+      const handleUpdateAbout = () => {
+        fetch('your_backend_endpoint', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ aboutText }),
+        })
+        .then((response) => {
+          if (response.ok) {
+            console.log('About Us text updated successfully!');
+            // Perform any additional actions upon successful update
+          } else {
+            console.error('Failed to update About Us text');
+            // Handle the failed update scenario
+          }
+        })
+        .catch((error) => {
+          console.error('Error updating About Us text:', error);
+          // Handle errors from the API call
+        })
+        .finally(() => {
+          // Set editable back to false after updating
+          setEditable(false);
+        });
       };
       
 
@@ -88,7 +105,7 @@ const AdminPage = () => {
     }
 
 
-    const addPerfumtToDB = (e) => {
+    const addPerfumtToDB =  (e) => {
         e.preventDefault()
         
         if(password.toString() === "123")
