@@ -1,7 +1,27 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Typography, Box } from '@mui/material';
 
 const AboutUs = () => {
+
+  const [about, setAbout] = useState("")
+
+  const getAboutUs = async () =>{
+
+    const res = await fetch("https://oudaroma-backend-server.onrender.com/utils/get-utils",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      }
+    });
+    const data = await res.json()
+    setAbout(data.about)
+  }
+
+  useEffect(()=>{
+    getAboutUs()
+  },[])
+
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
@@ -12,10 +32,7 @@ const AboutUs = () => {
       <br />
       
       <Typography variant="body1" textAlign="justify">
-        Perfume has a transformative quality that awakens something in all of us, from admiring the
-        precious liquid inside the beautiful bottles, to an aroma that can teleport you to a time or
-        place in an instant. "Perfume is the key to our memories" according to Kate Lord Brown,
-        author of the book "The Perfume Garden".
+        {about}
       </Typography>
     </Box>
   );
