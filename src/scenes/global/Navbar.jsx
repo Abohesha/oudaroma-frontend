@@ -23,7 +23,6 @@ const PerfumeMenuButton = (props) => {
     'Male',
     'Female',
     'Unisex',
-    'Top Rated',
     'Best Sellers',
     'Contact Us',
     'About Us',

@@ -5,7 +5,7 @@ import { shades } from "../../theme";
 
 
 function Footer() {
-  /*const {
+  const {
     palette: { neutral },
   } = useTheme();
   return (
@@ -33,7 +33,7 @@ function Footer() {
           </div>
         </Box>
 
-        <Box>
+        {/* <Box>
           <Typography variant="h4" fontWeight="bold" mb="30px">
             About Us
           </Typography>
@@ -41,7 +41,7 @@ function Footer() {
           <Typography mb="30px">Our Stores</Typography>
           <Typography mb="30px">Terms & Conditions</Typography>
           <Typography mb="30px">Privacy Policy</Typography>
-        </Box>
+        </Box> */}
 
 
 
@@ -50,20 +50,19 @@ function Footer() {
             Contact Us
           </Typography>
           <Typography mb="30px">
-            Debrecen, Batthyány u. 22, 4024
+            Debrecen, battyany utca 11/D
           </Typography>
           <Typography mb="30px" sx={{ wordWrap: "break-word" }}>
             Email: oudaroma@oudaroma.net
           </Typography>
-          <Typography mb="30px">06 70 434 1278</Typography>
-          <Typography mb="30px">+36 30 978 3757</Typography>
-
-          <Typography mb="30px"> </Typography>
-
+          <Box>
+          <Typography mb="30px">Phone number:
+           +36704341278</Typography>
+          </Box>
         </Box>
       </Box>
     </Box>
-  );*/
+  );
 }
 
 export default Footer;
