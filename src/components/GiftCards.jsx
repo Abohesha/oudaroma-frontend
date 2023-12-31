@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardMedia, CardContent, Modal, Backdrop } from '@mui/material';
 
 const GiftCards = () => {
   const [selectedImage, setSelectedImage] = useState(null);
+  const [giftCards, setGiftCards] = useState([])
 
   const handleOpenImage = (imageUrl) => {
     setSelectedImage(imageUrl);
@@ -12,6 +13,23 @@ const GiftCards = () => {
     setSelectedImage(null);
   };
 
+  const getGiftCards = async () =>{
+
+    const res = await fetch("https://oudaroma-backend-server.onrender.com/utils/get-utils",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      }
+    });
+    const data = await res.json()
+    setGiftCards(data.giftcards)
+  }
+
+  useEffect(()=>{
+    getGiftCards()
+  },[])
+
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">
@@ -19,39 +37,25 @@ const GiftCards = () => {
       </Typography>
 
       <Box display="flex" justifyContent="center" flexWrap="wrap" gap="20px" marginTop="40px">
-        <Card sx={{ maxWidth: 345 }} onClick={() => handleOpenImage("https://firebasestorage.googleapis.com/v0/b/oudaroma-9445a.appspot.com/o/WhatsApp%20Image%202023-12-06%20at%2011.45.30_704c0b10.jpg?alt=media&token=f2bf5a92-5f59-4547-9b26-54a2090f8529")}>
+        {giftCards.map((giftcard)=>(
+          <Card sx={{ maxWidth: 345 }} onClick={() => handleOpenImage(`${giftcard.pic}`)}>
           <CardMedia
             component="img"
             height="140"
-            image="https://firebasestorage.googleapis.com/v0/b/oudaroma-9445a.appspot.com/o/WhatsApp%20Image%202023-12-06%20at%2011.45.30_704c0b10.jpg?alt=media&token=f2bf5a92-5f59-4547-9b26-54a2090f8529"
+            image={giftcard.pic}
             alt="First Gift Card"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              First Gift Card Title
+              {giftcard.name}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Description or details about the first gift card.
+              {giftcard.description}
             </Typography>
           </CardContent>
         </Card>
+        ))}
 
-        <Card sx={{ maxWidth: 345 }} onClick={() => handleOpenImage("https://firebasestorage.googleapis.com/v0/b/oudaroma-9445a.appspot.com/o/WhatsApp%20Image%202023-12-06%20at%2011.50.42_c9396f9d.jpg?alt=media&token=f47360f5-90de-4fcc-b8ef-a689052b0277")}>
-          <CardMedia
-            component="img"
-            height="140"
-            image="https://firebasestorage.googleapis.com/v0/b/oudaroma-9445a.appspot.com/o/WhatsApp%20Image%202023-12-06%20at%2011.50.42_c9396f9d.jpg?alt=media&token=f47360f5-90de-4fcc-b8ef-a689052b0277"
-            alt="Second Gift Card"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              Second Gift Card Title
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Description or details about the second gift card.
-            </Typography>
-          </CardContent>
-        </Card>
       </Box>
 
       <Modal open={!!selectedImage} onClose={handleCloseImage} BackdropComponent={Backdrop}>

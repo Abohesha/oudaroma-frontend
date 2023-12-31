@@ -1,9 +1,26 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
 import { Typography, Box } from '@mui/material';
-import { useAppContext } from './ContextProvider';
+
 const AboutUs = () => {
 
-  const about = localStorage.getItem('about') 
+  const [about, setAbout] = useState("")
+
+  const getAboutUs = async () =>{
+
+    const res = await fetch("https://oudaroma-backend-server.onrender.com/utils/get-utils",{
+      method:"GET",
+      headers:{
+        "Content-Type":"application/json",
+        "Accept":"application/json"
+      }
+    });
+    const data = await res.json()
+    setAbout(data.about)
+  }
+
+  useEffect(()=>{
+    getAboutUs()
+  },[])
 
   return (
     <Box width="80%" margin="80px auto">
