@@ -281,6 +281,8 @@ useEffect(() => {
         const data = await res.json()
 
         console.log(data)
+        await window.location.reload()
+
 
         
       }
