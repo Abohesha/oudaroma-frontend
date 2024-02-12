@@ -57,7 +57,9 @@ function Footer() {
           </Typography>
           <Box>
           <Typography mb="30px">Phone number:
-           +36704341278</Typography>
+           +36704341278  (English and Arabic speakers)
+           +36309783757
+           </Typography>
           </Box>
         </Box>
       </Box>

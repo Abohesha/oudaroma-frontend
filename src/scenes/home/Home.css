@@ -1,0 +1,40 @@
+/* Home.css */
+
+.home {
+    position: relative;
+    text-align: center;
+  }
+  
+  /* Announcement.css */
+  
+  .announcement {
+    text-align: center;
+    background-color: black; /* Example background color for announcements */
+    color: white; /* Example text color for announcements */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 50px; /* Adjust margin as needed */
+    border-radius: 1px;
+    overflow: hidden; /* Ensure content does not overflow */
+  }
+  
+  .announcement img {
+    max-width: 100px; /* Adjust the maximum width of the image */
+    margin-left: 10px; /* Adjust margin as needed */
+  }
+  
+  .text-container {
+    animation: runningTextAnimation 15s linear infinite; /* Adjust animation duration as needed */
+    font-size: 20px;
+  }
+  
+  @keyframes runningTextAnimation {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(250%);
+    }
+  }
+  

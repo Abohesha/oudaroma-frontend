@@ -42,7 +42,7 @@ const AdminPage = () => {
     const [announcementText, setAnnouncementText] = useState()
     const [announcementPic, setAnnouncementPic] = useState()
     const [announcementPicURL, setAnnouncementPicURL] = useState()
-    const [isAnnouncementPicUpload, setIsAnnouncementPicUploaded] = useState()
+    const [isAnnouncementPicUpload, setIsAnnouncementPicUploaded] = useState(false)
 
 
     const getAllPerfume = async () =>{
@@ -54,6 +54,13 @@ const AdminPage = () => {
         setAllPerfumeData(data);
         
     }
+
+    useEffect(() => {
+      getAboutUs();
+      getGiftCards();
+      getAnnouncement();
+    }, []);
+    
 
     useEffect(()=>{
         getAllPerfume()
@@ -166,47 +173,51 @@ const AdminPage = () => {
         setAboutText(data.about)
       }
   
-      const getAnnouncement = async () =>{
-  
-        const res = await fetch("https://oudaroma-backend-server.onrender.com/utils/get-utils",{
-          method:"GET",
-          headers:{
-            "Content-Type":"application/json",
-            "Accept":"application/json"
-          }
-        });
-        const data = await res.json()
-        console.log(data.announcement)
-        setAnnouncementText(data.announcement.text)
-        setAnnouncementPic(data.announcement.pic)
-      }
-    
-      useEffect(()=>{
-        getAboutUs()
-        getGiftCards()
-        getAnnouncement()
-      },[])
+const getAnnouncement = async () => {
+  const res = await fetch("https://oudaroma-backend-server.onrender.com/utils/get-utils", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+  });
+  const data = await res.json();
+
+  const announcementText = data.announcement.text.replace(/\n/g, '<br>');
+  setAnnouncementText(announcementText);
+  setAnnouncementPic(data.announcement.pic);
+};
+
+useEffect(() => {
+  getAboutUs();
+  getGiftCards();
+  getAnnouncement();
+}, []);
+
   
       const handleAboutTextChange = (e) => {
-        setAboutText(e.target.value);
+        const newText = e.target.value.replace(/\n/g, '<br>');
+        setAboutText(newText);
       };
       
       const handleUpdateAbout = async () => {
+        const formattedText = aboutText;
+      
         const res = await fetch('https://oudaroma-backend-server.onrender.com/utils/update-utils', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            "Accept":"application/json"
+            'Accept': 'application/json',
           },
-          body: JSON.stringify({ 
-            about:aboutText
-           }),
-        })
-        
-        const data = await res.json()
-        await window.location.reload()
-      };
-        
+          body: JSON.stringify({
+            about: formattedText,
+          }),
+        });
+      
+        const data = await res.json();
+        await window.location.reload();
+      };      
+      
 
       const uploadPicToFirebaseAndSetGiftCard = (e, idx) =>{
         console.log(idx)
@@ -329,46 +340,63 @@ const AdminPage = () => {
 
 
 
-    const handleAnnouncementTextChange = (e) =>{
-      setAnnouncementText(e.target.value)
-    }
+      const handleAnnouncementTextChange = (e) => {
+        const newText = e.target.value.replace(/\n/g, '<br>');
+        setAnnouncementText(newText);
+      };
 
-    const uploadAnnouncementPicToFirebaseAndSet = (e) =>{
-      e.preventDefault()
-
-      if(announcementPic){
-        const imageRef = ref(storage, `${announcementPic?.name + v4()}`)
-        uploadBytes(imageRef, announcementPic).then((snapshot)=>{
-            getDownloadURL(snapshot.ref).then((url)=>{
-                setAnnouncementPicURL(url)
-            })
-        })
-      }
-
-      setIsAnnouncementPicUploaded(true)
-    }
-    
-    const handleUpdateAnnouncement = async () => {
-
-      const updatedAnnouncement = {
-        "text":announcementText,
-        "pic":announcementPicURL
-      }
-
-      const res = await fetch('https://oudaroma-backend-server.onrender.com/utils/update-utils', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          "Accept":"application/json"
-        },
-        body: JSON.stringify({ 
-          announcement: updatedAnnouncement
-         }),
-      })
+      const uploadAnnouncementPicToFirebaseAndSet = (e) => {
+        e.preventDefault();
       
-      const data = await res.json()
-      await window.location.reload()
-    }
+        if (announcementPic) {
+          const imageRef = ref(storage, `${announcementPic?.name + v4()}`);
+          uploadBytes(imageRef, announcementPic).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+              setAnnouncementPicURL(url);
+            });
+          });
+        }
+      
+        setIsAnnouncementPicUploaded(true);
+      };
+    
+      const handleUpdateAnnouncement = async () => {
+        try {
+          if (announcementPic) {
+            const imageRef = ref(storage, `${announcementPic?.name + v4()}`);
+            await uploadBytes(imageRef, announcementPic);
+            const url = await getDownloadURL(imageRef);
+            setAnnouncementPicURL(url);
+          }
+      
+          const updatedAnnouncement = {
+            text: announcementText,
+            pic: announcementPicURL
+          };
+      
+          const res = await fetch('https://oudaroma-backend-server.onrender.com/utils/update-utils', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+              announcement: updatedAnnouncement
+            }),
+          });
+      
+          if (res.status === 200) {
+            setIsAnnouncementPicUploaded(true);
+            console.log('Announcement updated successfully.');
+            await window.location.reload()
+          } else {
+            console.error('Failed to update announcement.');
+          }
+        } catch (error) {
+          console.error('Error updating announcement:', error);
+        }
+      };
+      
 
     
   return (
@@ -518,7 +546,7 @@ const AdminPage = () => {
           <CardMedia
             component="img"
             height="140"
-            image={`${giftcard.pic}`}
+            image={`${giftcard.pic}`}A
             alt="First Gift Card"
           />
           <CardContent>

@@ -13,6 +13,7 @@ import {
   setIsCartOpen,
 } from "../../state";
 import { useNavigate } from "react-router-dom";
+import { loadStripe } from "@stripe/stripe-js";
 
 const FlexBox = styled(Box)`
   display: flex;

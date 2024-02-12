@@ -34,7 +34,8 @@ function ContactComponent(props) {
           <h2>Address</h2>
           <div>battyany utca 11/D</div>
           <h2>Email</h2>
-          <div>oudaroma@oudaroma.net</div>
+          <div>oudaroma@oudaroma.net (for adminstration)</div>
+          <div>info.oudaroma@gmail.com  (for sales)</div>
           <h2>Phone Numbers</h2>
           <ul>
             <li>+36309783757</li>

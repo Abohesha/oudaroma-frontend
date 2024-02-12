@@ -31,9 +31,8 @@ const AboutUs = () => {
       <br />
       <br />
       
-      <Typography variant="body1" textAlign="justify">
-        {about}
-      </Typography>
+      <Typography variant="body1" textAlign="justify" dangerouslySetInnerHTML={{ __html: about }} />
+
     </Box>
   );
 };

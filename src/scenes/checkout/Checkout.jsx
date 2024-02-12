@@ -9,21 +9,23 @@ import Shipping from "./Shipping";
 import {loadStripe} from "@stripe/stripe-js";
 import React from "react";
 
-const stripePromise = loadStripe(
-  "pk_test_51Nw2lqFSecXCj8eNmASvsdocPT5d2d7dV4Y2MhtDpl3Ks2u14bzCa684ndgbQ8Nn8lSjZMpHPVxSEBitXERn4ll800jz4tkvbn"
-);
+
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
   const cart = useSelector((state) => state.cart.cart);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
+const apiURL = "http://localhost:8000";
 
+
+ const handleClick = async () => {
+  await makePayment();
+};
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
 
-    // this copies the billing address onto shipping address
-    if (isFirstStep && values.shippingAddress.isSameAddress) {
+    if (isFirstStep && values?.shippingAddress?.isSameAddress) {
       actions.setFieldValue("shippingAddress", {
         ...values.billingAddress,
         isSameAddress: true,
@@ -31,13 +33,40 @@ const Checkout = () => {
     }
 
     if (isSecondStep) {
-      makePayment(values);
+      await makePayment();
+      await createOrder(values);
+      await actions.setSubmitting(false)
     }
-
-    actions.setTouched({});
   };
 
-  async function makePayment(values) {
+  const makePayment = async () => {
+    const stripe = await loadStripe("pk_test_51ODvLYB5OihzYFC9XgoFH8vCBTvyM4txL1a3ADuEWwZgd18UJNHOwzxeYkVJrdH9nexiB3BORyw4ff6cbxKDEAYf00zpVs7RiQ");
+
+    const body = {
+      "products": cart,
+    };
+
+    console.log(cart)
+
+    const response = await fetch(`http://localhost:8000/payment/create-checkout-session`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        Accept:"application/json"
+      },
+      body: JSON.stringify(body),
+    });
+
+    const session = await response.json();
+    await console.log(session)
+
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+    await console.log(result)
+  };
+
+  const createOrder = async (values) => {
     const requestBody = {
       userName: [values.firstName, values.lastName].join(" "),
       email: values.email,
@@ -47,13 +76,13 @@ const Checkout = () => {
       })),
     };
 
-    const response = await fetch("http://localhost:3000/api/orders", {
+    await fetch("http://localhost:8000/api/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     });
+  };
 
-  }
 
   return (
     <Box width="80%" m="100px auto">
@@ -119,21 +148,22 @@ const Checkout = () => {
                     Back
                   </Button>
                 )}
-                <Button
-                  fullWidth
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  sx={{
-                    backgroundColor: shades.primary[400],
-                    boxShadow: "none",
-                    color: "white",
-                    borderRadius: 0,
-                    padding: "15px 40px",
-                  }}
-                >
-                  {!isSecondStep ? "Next" : "Place Order"}
-                </Button>
+                  <Button
+                fullWidth
+                type="submit"
+                color="primary"
+                variant="contained"
+                onClick={handleFormSubmit}
+                sx={{
+                  backgroundColor: shades.primary[400],
+                  boxShadow: "none",
+                  color: "white",
+                  borderRadius: 0,
+                  padding: "15px 40px",
+                }}
+              >
+                {!isSecondStep ? "Next" : "Place Order"}
+              </Button>
               </Box>
             </form>
           )}
