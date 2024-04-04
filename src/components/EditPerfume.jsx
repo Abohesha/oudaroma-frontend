@@ -14,8 +14,11 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { useLocation } from "react-router-dom";
 import Carousel from 'react-material-ui-carousel'
-import { TextField } from '@mui/material'; // Import TextField and Box components from MUI}
+import { TextField } from '@mui/material'; 
 import { useNavigate } from 'react-router-dom'; 
+import {storage} from '../firebase'
+import {ref, uploadBytes, getDownloadURL} from 'firebase/storage'
+import {v4} from 'uuid'
 
 const EditPerfume = () => {
     const {perfume_id} = useParams()
@@ -28,6 +31,7 @@ const EditPerfume = () => {
     const [item, setItem] = useState(null);
     const [items, setItems] = useState([]);
     const [count, setCount] = useState(0);
+    const [forceRerender, setForceRerender] = useState(false);
 
     const [name, setName] = useState("");
     const [images, setImages] = useState([]);
@@ -35,8 +39,83 @@ const EditPerfume = () => {
     const [category, setCategory] = useState("Male");
     const [shortDescription, setShortDescription] = useState("");
     const [longDescription, setLongDescription] = useState("")
+    const [imagesURLs , setImagesURLs] = useState([]);
 
     const navigate = useNavigate()
+
+    const uploadPerfumeImage = (e) =>{
+      e.preventDefault()
+
+      for(let i=0; i < images.length; i++)
+      {
+          const imageRef = ref(storage, `${images[i].name + v4()}`)
+          uploadBytes(imageRef, images[i]).then((snapshot)=>{
+              getDownloadURL(snapshot.ref).then((url)=>{
+                  setImagesURLs((prev)=>[...prev, url])
+              })
+          })
+
+      }
+      console.log(imagesURLs)
+      alert("All Images Uploaded Successfully")
+  }
+
+   const addImageToItem = async (index , perfume_id) => {
+      const res = await fetch(`http://localhost:8000/item/add-image/${perfume_id}`, {
+          method: 'POST',
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ image: index }),
+      });
+  
+      const data = await res.json();
+      console.log(data);
+  };
+
+  const deleteImageFromItem = async (imageIndex) => {
+    try {
+        console.log('Deleting image at index:', imageIndex);
+        const res = await fetch(`http://localhost:8000/item/delete-image/${perfume_id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ imageIndex: imageIndex }),
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            console.log('Image deleted successfully:', data);
+            console.log('Updated images state:', data.image);
+        } else {
+            console.error('Failed to delete image');
+        }
+    } catch (error) {
+        console.error('Error deleting image:', error);
+    }
+};
+
+
+
+const handleDeleteImage = async (index) => {
+  try {
+      await deleteImageFromItem(index);
+      setForceRerender(!forceRerender);
+  } catch (error) {
+      console.error('Error deleting image:', error);
+  }
+};
+
+const handleaddedImage = async (index, perfume_id) => {
+  try {
+    await addImageToItem(index, perfume_id);
+    console.log("added new Image");
+  } catch (error) {
+    console.error('Error adding image:', error);
+  }
+};
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -79,54 +158,72 @@ const EditPerfume = () => {
         console.log(e.target.value)
       }
 
-      const editPerfumeInDB = async () =>{
-
-        const res = await fetch('https://oudaroma-backend-server.onrender.com/item/edit-item-by-id',{
-            method:'PUT',
-            headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                  id:item._id,
-                  name:name.length > 0 ? name : item.name,
-                  price: price.length > 0 ? price : item.price,
-                  longDescription: longDescription.length > 0 ? longDescription : item.longDescription,
-                  shortDescription: shortDescription.length > 0 ? shortDescription : item.shortDescription
-              })
-        })
-
-        const data = await res.json()
-
-        console.log(data)
-        navigate('/')
-
-      }
+      const editPerfumeInDB = async () => {
+        const res = await fetch('https://oudaroma-backend-server.onrender.com/item/edit-item-by-id', {
+          method: 'PUT',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: item._id,
+            name: name.length > 0 ? name : item.name,
+            price: price.length > 0 ? price : item.price,
+            longDescription: longDescription.length > 0 ? longDescription : item.longDescription,
+            shortDescription: shortDescription.length > 0 ? shortDescription : item.shortDescription
+          })
+        });
+      
+        const data = await res.json();
+        console.log(data);
+      
+        setName(data.name);
+        setPrice(data.price);
+        setLongDescription(data.longDescription);
+        setShortDescription(data.shortDescription);
+      
+        navigate('/');
+      };
+      
+      
 
     return (
         <Box width="80%" m="80px auto">
         <Box display="flex" flexWrap="wrap" columnGap="40px">
           {/* IMAGES */}
           <Box flex="1 1 40%" mb="40px">
-          <Carousel
+          <Carousel key={forceRerender}
           NavigateNextIcon={<NavigateNextIcon/>}
           NavigateBeforeIcon={<NavigateBeforeIcon/>}
           >
             {
               item?.image?.map((img,i)=>(     
                 
+                <div key={i} style={{ position: 'relative' }}>
                 <img
-                  key={i}
-                  alt={item?.name}
-                  width="90%"
-                  height="90%"
-                  src={item?.image}
-                  style={{ objectFit: "contain" }}
+                    alt={item?.name}
+                    width="90%"
+                    height="90%"
+                    src={img}
+                    style={{ objectFit: 'contain' }}
                 />
-        
-              ))
-            }
+                <button
+                 
+                    onClick={() => handleDeleteImage(i)}
+                >
+                    Delete the image
+                </button>
+            </div>
+              ))}
   
           </Carousel>
+
+          {item?.image && item.image.length === 0 && (
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) => handleaddedImage(e.target.files[0] , perfume_id)}
+    />
+     )}<button onClick={uploadPerfumeImage}>Add Image</button>
           </Box>  
           {/* ACTIONS */}
           <Box flex="1 1 50%" mb="10px">
@@ -209,7 +306,7 @@ const EditPerfume = () => {
               placeholder="Enter short description text here..."
               variant="outlined"
               onChange={(e)=>setShortDescription(e.target.value)}
-              style={{ fontSize: '18px', width: '100%' }} // Customize the font size and width
+              style={{ fontSize: '18px', width: '100%' }} 
             />
           </Box>
           )}

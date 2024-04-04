@@ -8,8 +8,13 @@ const Announcement = ({ text, pic }) => {
     <div className="announcement">
       <div className="text-container">
         <div className="text">
-      <Typography color={"white"} variant="body1" textAlign="center" dangerouslySetInnerHTML={{ __html: text }} />
-      </div>
+        <Typography 
+    color={"white"} 
+    variant="body1" 
+    textAlign="center" 
+    dangerouslySetInnerHTML={{ __html: text }} 
+    style={{ fontSize: "1rem", fontWeight: "bold" }}
+/>      </div>
       </div>
       {pic && <img className="announcement-img" src={pic} alt="Announcement" />}
     </div>
